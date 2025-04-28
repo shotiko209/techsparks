@@ -1,0 +1,482 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Discovery Hub - პროექტები</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Project specific styles */
+			.projects-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 1em;
+			}
+			
+			.projects-header {
+				text-align: center;
+				margin-bottom: 2em;
+				padding: 0 1em;
+			}
+			
+			.projects-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 1.5em;
+				margin-bottom: 2em;
+			}
+			
+			.project-card {
+				background: #fff;
+				border-radius: 8px;
+				overflow: hidden;
+				box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				margin: 0.5em;
+			}
+			
+			.project-card:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+			}
+			
+			.project-image {
+				height: 180px;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.project-image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.5s ease;
+			}
+			
+			.project-card:hover .project-image img {
+				transform: scale(1.05);
+			}
+			
+			.project-category {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				background: #21b2a6;
+				color: white;
+				padding: 0.3em 0.8em;
+				border-radius: 20px;
+				font-size: 0.8em;
+				font-weight: 600;
+			}
+			
+			.project-content {
+				padding: 1.2em;
+			}
+			
+			.project-title {
+				font-size: 1.2em;
+				margin-bottom: 0.5em;
+				color: #2e3842;
+			}
+			
+			.project-description {
+				color: #555;
+				margin-bottom: 1em;
+				font-size: 0.85em;
+				line-height: 1.5;
+			}
+			
+			.project-meta {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding-top: 1em;
+				border-top: 1px solid #eee;
+				font-size: 0.85em;
+			}
+			
+			.project-difficulty {
+				display: flex;
+				align-items: center;
+			}
+			
+			.difficulty-level {
+				color: #777;
+			}
+			
+			.project-participants {
+				color: #777;
+			}
+			
+			.project-details-btn {
+				display: inline-block;
+				background: #21b2a6;
+				color: white;
+				padding: 0.6em 1.2em;
+				border-radius: 5px;
+				text-decoration: none;
+				font-weight: 600;
+				transition: background 0.3s ease;
+				margin-top: 0.8em;
+				font-size: 0.9em;
+				width: 100%;
+				text-align: center;
+			}
+			
+			.project-details-btn:hover {
+				background: #1a9085;
+			}
+			
+			.filter-bar {
+				background: #f5f5f5;
+				padding: 1em;
+				border-radius: 5px;
+				margin-bottom: 1.5em;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.8em;
+				align-items: center;
+			}
+			
+			.filter-label {
+				font-weight: 600;
+				color: #555;
+				font-size: 0.9em;
+			}
+			
+			.filter-options {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5em;
+			}
+			
+			.filter-option {
+				background: white;
+				border: 1px solid #ddd;
+				padding: 0.4em 0.8em;
+				border-radius: 20px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				font-size: 0.85em;
+			}
+			
+			.filter-option:hover, .filter-option.active {
+				background: #21b2a6;
+				color: white;
+				border-color: #21b2a6;
+			}
+			
+			/* Responsive adjustments */
+			@media (max-width: 768px) {
+				.projects-container {
+					padding: 0.5em;
+				}
+				
+				.projects-grid {
+					grid-template-columns: 1fr;
+					gap: 1em;
+				}
+				
+				.filter-bar {
+					flex-direction: column;
+					align-items: flex-start;
+					padding: 0.8em;
+				}
+				
+				.filter-options {
+					width: 100%;
+				}
+				
+				.project-card {
+					margin: 0.2em;
+				}
+				
+				.project-image {
+					height: 160px;
+				}
+			}
+			
+			@media (max-width: 480px) {
+				.projects-header h2 {
+					font-size: 1.5em;
+				}
+				
+				.projects-header p {
+					font-size: 0.9em;
+				}
+				
+				.project-image {
+					height: 140px;
+				}
+				
+				.project-content {
+					padding: 1em;
+				}
+			}
+		</style>
+	</head>
+	<body class="landing is-preload">
+
+		<!-- Page Wrapper -->
+		<div id="page-wrapper">
+
+			<!-- Header -->
+			<header id="header">
+				<h1><a href="index.html">Discovery Hub</a></h1>
+				<nav id="nav">
+					<ul>
+						<li class="special">
+							<a href="#menu" class="menuToggle"><span>მენიუ</span></a>
+							<div id="menu">
+								<ul>
+									<li><a href="index.html">მთავარი</a></li>
+									<li><a href="ჩათბოტი.html">ჩათბოტი</a></li>
+									<li><a href="პროექტები.html">პროექტები</a></li>
+									<li><a href="#">რეგისტრაცია</a></li>
+									<li><a href="#">შესვლა</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+			<!-- Main Content -->
+			<section id="main" class="wrapper style1">
+				<div class="projects-container">
+					<div class="projects-header">
+						<h2>პროექტები</h2>
+						<p>აღმოაჩინეთ საინტერესო პროექტები თქვენი უნარებისა და ინტერესების შესაბამისად</p>
+					</div>
+					
+					<!-- Filter Bar -->
+					<div class="filter-bar">
+						<span class="filter-label">ფილტრი:</span>
+						<div class="filter-options">
+							<span class="filter-option active" data-filter="all">ყველა</span>
+							<span class="filter-option" data-filter="tech">ტექნოლოგია</span>
+							<span class="filter-option" data-filter="science">მეცნიერება</span>
+							<span class="filter-option" data-filter="art">ხელოვნება</span>
+							<span class="filter-option" data-filter="business">ბიზნესი</span>
+						</div>
+						
+						<span class="filter-label">სირთულე:</span>
+						<div class="filter-options">
+							<span class="filter-option active" data-difficulty="all">ყველა</span>
+							<span class="filter-option" data-difficulty="beginner">დამწყები</span>
+							<span class="filter-option" data-difficulty="intermediate">საშუალო</span>
+							<span class="filter-option" data-difficulty="advanced">რთული</span>
+						</div>
+					</div>
+					
+					<!-- Projects Grid -->
+					<div class="projects-grid" id="projects-container">
+						<!-- Project 1 -->
+						<div class="project-card" data-category="tech" data-difficulty="beginner">
+							<div class="project-image">
+								<img src="images/project1.jpg" alt="Web Development Project">
+								<div class="project-category">ტექნოლოგია</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">ვებ-საიტის შექმნა</h3>
+								<p class="project-description">შექმენით თქვენი პირველი ვებ-საიტი HTML, CSS და JavaScript-ის გამოყენებით. ისწავლეთ ვებ-გვერდების შექმნის საფუძვლები.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">დამწყები</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 243 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+						
+						<!-- Project 2 -->
+						<div class="project-card" data-category="science" data-difficulty="intermediate">
+							<div class="project-image">
+								<img src="images/project2.jpg" alt="Science Project">
+								<div class="project-category">მეცნიერება</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">მიკროკონტროლერის პროგრამირება</h3>
+								<p class="project-description">შეისწავლეთ Arduino პლატფორმა და შექმენით მარტივი სენსორების სისტემა გარემოს მონიტორინგისთვის.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">საშუალო</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 156 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+						
+						<!-- Project 3 -->
+						<div class="project-card" data-category="art" data-difficulty="beginner">
+							<div class="project-image">
+								<img src="images/project3.jpg" alt="Art Project">
+								<div class="project-category">ხელოვნება</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">ციფრული ხელოვნება</h3>
+								<p class="project-description">შეისწავლეთ ციფრული ხატვის საფუძვლები და შექმენით თქვენი საკუთარი ილუსტრაციები ან კონცეპტ-არტი.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">დამწყები</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 189 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+						
+						<!-- Project 4 -->
+						<div class="project-card" data-category="business" data-difficulty="advanced">
+							<div class="project-image">
+								<img src="images/project4.jpg" alt="Business Project">
+								<div class="project-category">ბიზნესი</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">სტარტაპის გაშვება</h3>
+								<p class="project-description">შეიმუშავეთ ბიზნეს გეგმა, პროტოტიპი და მარკეტინგული სტრატეგია თქვენი ინოვაციური იდეისთვის.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">რთული</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 87 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+						
+						<!-- Project 5 -->
+						<div class="project-card" data-category="tech" data-difficulty="intermediate">
+							<div class="project-image">
+								<img src="images/project5.jpg" alt="Mobile App Project">
+								<div class="project-category">ტექნოლოგია</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">მობილური აპლიკაცია</h3>
+								<p class="project-description">შექმენით მარტივი მობილური აპლიკაცია Flutter-ის გამოყენებით როგორც Android, ასევე iOS პლატფორმებისთვის.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">საშუალო</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 132 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+						
+						<!-- Project 6 -->
+						<div class="project-card" data-category="science" data-difficulty="advanced">
+							<div class="project-image">
+								<img src="images/project6.jpg" alt="Data Science Project">
+								<div class="project-category">მეცნიერება</div>
+							</div>
+							<div class="project-content">
+								<h3 class="project-title">მონაცემთა ანალიზი</h3>
+								<p class="project-description">შეისწავლეთ მონაცემთა ანალიზის საფუძვლები Python-ის და პოპულარული ბიბლიოთეკების გამოყენებით.</p>
+								<div class="project-meta">
+									<div class="project-difficulty">
+										<span class="difficulty-level">რთული</span>
+									</div>
+									<div class="project-participants">
+										<i class="fa fa-users"></i> 98 მონაწილე
+									</div>
+								</div>
+								<a href="#" class="project-details-btn">დეტალები</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+					<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+					<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+					<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; Discovery Hub</li><li>Design: <a href="https://www.facebook.com/profile.php?id=100011249648436">Shotiko</a></li>
+				</ul>
+			</footer>
+
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		
+		<script>
+			// Project filtering functionality
+			document.addEventListener('DOMContentLoaded', function() {
+				const filterOptions = document.querySelectorAll('.filter-option[data-filter]');
+				const difficultyOptions = document.querySelectorAll('.filter-option[data-difficulty]');
+				const projectCards = document.querySelectorAll('.project-card');
+				
+				// Category filter
+				filterOptions.forEach(option => {
+					option.addEventListener('click', function() {
+						// Update active state
+						filterOptions.forEach(opt => opt.classList.remove('active'));
+						this.classList.add('active');
+						
+						const filter = this.getAttribute('data-filter');
+						const currentDifficulty = document.querySelector('.filter-option[data-difficulty].active').getAttribute('data-difficulty');
+						
+						filterProjects(filter, currentDifficulty);
+					});
+				});
+				
+				// Difficulty filter
+				difficultyOptions.forEach(option => {
+					option.addEventListener('click', function() {
+						// Update active state
+						difficultyOptions.forEach(opt => opt.classList.remove('active'));
+						this.classList.add('active');
+						
+						const difficulty = this.getAttribute('data-difficulty');
+						const currentFilter = document.querySelector('.filter-option[data-filter].active').getAttribute('data-filter');
+						
+						filterProjects(currentFilter, difficulty);
+					});
+				});
+				
+				// Filter projects based on category and difficulty
+				function filterProjects(category, difficulty) {
+					projectCards.forEach(card => {
+						const cardCategory = card.getAttribute('data-category');
+						const cardDifficulty = card.getAttribute('data-difficulty');
+						
+						const categoryMatch = category === 'all' || cardCategory === category;
+						const difficultyMatch = difficulty === 'all' || cardDifficulty === difficulty;
+						
+						if (categoryMatch && difficultyMatch) {
+							card.style.display = 'block';
+						} else {
+							card.style.display = 'none';
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+</html>
